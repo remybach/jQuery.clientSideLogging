@@ -72,8 +72,4 @@
 
 		return _info;
 	};
-
-	$.error('foo');
-	$.info('foo');
-	$.log('foo');
 })(jQuery);
