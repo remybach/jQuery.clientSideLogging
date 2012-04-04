@@ -6,7 +6,7 @@ This is in a completely alpha state - I've not had the chance to do any testing 
 
 ## About
 
-The idea behind this plugin was born from (reading this article)[http://openmymind.net/2012/4/4/You-Really-Should-Log-Client-Side-Error/].
+The idea behind this plugin was born from [reading this article](http://openmymind.net/2012/4/4/You-Really-Should-Log-Client-Side-Error/).
 The plugin has the ability to include some useful stats like the user agent, window size, and hopefully more in the future.
 
 ## Usage
