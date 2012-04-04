@@ -41,21 +41,24 @@
 
 	/*===== Private Functions =====*/
 	_send = function(url, what) {
-		if (typeof what === 'string') {
-			if (url.match(/\?.+$/)) {
-				url += '&';
-			} else {
-				url += '?';
-			}
-
-			url += defaults.query_var + '=' + what;
-
-			$.post(url);
+		if (url.match(/\?.+$/)) {
+			url += '&';
 		} else {
-			// Let's grab the additional logging info before we send this off.
-			$.extend(what, _buildClientInfo);
-			$.post(url, what);
+			url += '?';
 		}
+
+		format = 'text';
+
+		if (typeof what === 'object') {
+			// Let's grab the additional logging info before we send this off.
+			format = 'json';
+
+			$.extend(what, _buildClientInfo);
+			what = JSON.stringify(what);
+		}
+
+		url += 'format=' + format + '&' + defaults.query_var + '=' + what;
+		$.post(url);
 	};
 
 	_buildClientInfo = function() {
@@ -69,5 +72,25 @@
 		}
 
 		return _info;
+	};
+
+	// Fallback for older browsers that don't implement JSON.stringify
+	JSON.stringify = JSON.stringify || function (obj) {
+		var t = typeof (obj);
+		if (t != "object" || obj === null) {
+			// simple data type
+			if (t == "string") obj = '"'+obj+'"';
+			return String(obj);
+		} else {
+			// recurse array or object
+			var n, v, json = [], arr = (obj && obj.constructor == Array);
+			for (n in obj) {
+				v = obj[n]; t = typeof(v);
+				if (t == "string") v = '"'+v+'"';
+				else if (t == "object" && v !== null) v = JSON.stringify(v);
+				json.push((arr ? "" : '"' + n + '":') + String(v));
+			}
+			return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
+		}
 	};
 })(jQuery);
