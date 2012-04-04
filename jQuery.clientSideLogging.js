@@ -16,7 +16,9 @@
 		query_var: 'msg',
 		client_info: {
 			user_agent:true,
-			window_size:true
+			window_size:true,
+			screen_size:true,
+			location:true
 		}
 	};
 
@@ -67,8 +69,14 @@
 		if (defaults.client_info.user_agent) {
 			_info.user_agent = navigator.userAgent;
 		}
-		if (defaults.window_size) {
+		if (defaults.client_info.window_size) {
 			_info.window_size = $(window).outerWidth()+' x '+$(window).outerHeight();
+		}
+		if (defaults.client_info.screen_size) {
+			_info.screen_size = window.screen.availWidth+' x '+window.screen.availHeight;
+		}
+		if (defaults.client_info.location) {
+			_info.location = window.location.href;
 		}
 
 		return _info;
