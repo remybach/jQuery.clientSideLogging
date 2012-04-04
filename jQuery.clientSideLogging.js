@@ -10,9 +10,9 @@
  */
 (function($) {
 	var defaults = {
-		error_url: '/error',
-		info_url: '/info',
-		log_url: '/log',
+		error_url: '/log?type=error',
+		info_url: '/log?type=info',
+		log_url: '/log?type=log',
 		query_var: 'msg',
 		client_info: {
 			user_agent:true,
@@ -42,7 +42,15 @@
 	/*===== Private Functions =====*/
 	_send = function(url, what) {
 		if (typeof what === 'string') {
-			$.post(url+'?'+defaults.query_var+'='+what);
+			if (url.match(/\?.+$/)) {
+				url += '&';
+			} else {
+				url += '?';
+			}
+
+			url += defaults.query_var + '=' + what;
+
+			$.post(url);
 		} else {
 			// Let's grab the additional logging info before we send this off.
 			$.extend(what, _buildClientInfo);
