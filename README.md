@@ -45,4 +45,4 @@ If it's a json formatted object, this will get passed as a data object as follow
 * Actually get around to testing this properly.
 * Add the ability to pass in success and error callbacks.
 * Make the _buildClientInfo function accommodate strings too.
-* Add more options to the client_info option.
+* Add more choices to the client_info option.
