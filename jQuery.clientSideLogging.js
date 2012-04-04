@@ -41,21 +41,20 @@
 
 	/*===== Private Functions =====*/
 	_send = function(url, what) {
-		if (typeof what === 'string') {
-			if (url.match(/\?.+$/)) {
-				url += '&';
-			} else {
-				url += '?';
-			}
-
-			url += defaults.query_var + '=' + what;
-
-			$.post(url);
+		if (url.match(/\?.+$/)) {
+			url += '&';
 		} else {
+			url += '?';
+		}
+
+		if (typeof what === 'object') {
 			// Let's grab the additional logging info before we send this off.
 			$.extend(what, _buildClientInfo);
-			$.post(url, what);
+			what = JSON.stringify(what);
 		}
+
+		url += defaults.query_var + '=' + what;
+		$.post(url);
 	};
 
 	_buildClientInfo = function() {
