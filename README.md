@@ -34,11 +34,11 @@ Once you've specified the urls (or are happy with the defaults), you have three 
 
 If a string is received, the `query_var` option is what will be passed to the url... so using the default would make the following post request:
 
-	`$.post('/error?msg=YOUR_ERROR_MESSAGE');`
+	$.post('/error?msg=YOUR_ERROR_MESSAGE');
 
 If it's a json formatted object, this will get passed as a data object as follows:
 
-	`$.post('/error', { your:custom, information:here });`
+	$.post('/error', { your:custom, information:here });
 
 ## TODOs
 
