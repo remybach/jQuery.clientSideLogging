@@ -2,7 +2,9 @@
 
 ## NOTE
 
-This is in a completely alpha state - I've not had the chance to do any testing yet. If anyone wants to contribute and take part in this, feel free!
+This is in an alpha state. I've had the chance to test it from the front end, and if my console in Chrome is to be believed, then everything's being sent through as expected and the back end should hopefully be receiving things correctly.
+
+If anyone wants to contribute and take part in this, feel free!
 
 ## About
 
