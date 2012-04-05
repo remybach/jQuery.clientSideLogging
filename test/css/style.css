@@ -1,0 +1,4 @@
+ul { list-style:none; margin-left:5px; }
+li { margin:5px 0; }
+
+.log_info { height:150px; overflow:auto; }
