@@ -85,7 +85,7 @@
 			_info.user_agent = navigator.userAgent;
 		}
 		if (defaults.client_info.window_size) {
-			_info.window_size = $(window).outerWidth()+' x '+$(window).outerHeight();
+			_info.window_size = $(window).width()+' x '+$(window).height();
 		}
 		if (defaults.client_info.screen_size) {
 			_info.screen_size = window.screen.availWidth+' x '+window.screen.availHeight;
