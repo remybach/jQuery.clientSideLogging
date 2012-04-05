@@ -101,11 +101,6 @@
 			// Let's grab the additional logging info before we send this off.
 			$.extend(what, _buildClientInfo());
 			what = JSON.stringify(what);
-		} else {
-			// Add the client info to what was passed through.
-			$.each(_buildClientInfo(), function(name, val) {
-				what += '&'+name+'='+val;
-			});
 		}
 
 		url += 'format=' + format + '&' + defaults.query_var + '=' + what;
