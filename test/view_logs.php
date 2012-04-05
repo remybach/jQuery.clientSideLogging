@@ -8,6 +8,9 @@ if ( !$logs ) {
 	$logs = array();
 }
 
+// We don't care about hashes on the frontend, and this lets us sort.
+$logs->incidence = get_object_vars($logs->incidence);
+
 function format_log($log) {
 	$log->decoded_message = $log->message;
 	if ( $log->format == 'json' ) {
@@ -22,6 +25,21 @@ foreach ( (array) $logs->incidence as $log ) {
 foreach ( (array) $logs->log as $log ) {
 	$log = format_log($log);
 }
+
+// Show log entries in reverse chronological order.
+$logs->log = array_reverse($logs->log);
+
+// Sort incidence entries by count.
+usort(
+	$logs->incidence,
+	function($a, $b) {
+		if ( $a->count == $b->count ) {
+			return 0;
+		}
+		// We're sorting descending.
+		return ( $a->count < $b->count ) ? 1 : -1;
+	}
+);
 
 ?>
 <!doctype html>
