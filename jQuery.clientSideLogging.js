@@ -1,7 +1,7 @@
 /*
  *	Title: jQuery Client Side Logging Plugin
  *	Author: Rémy Bach
- *	Version: 0.0.1
+ *	Version: 0.0.2
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.clientSideLogging
  *	Description:
@@ -28,7 +28,7 @@
 	};
 
 	$.fn.error = function(what) {
-		if (defaults.log_level === 1) {
+		if (defaults.log_level >= 1) {
 			_send(defaults.error_url, what);
 		}
 
@@ -36,7 +36,7 @@
 	};
 
 	$.fn.info = function(what) {
-		if (defaults.log_level === 3) {
+		if (defaults.log_level >= 3) {
 			_send(defaults.info_url, what);
 		}
 
@@ -44,7 +44,7 @@
 	};
 
 	$.fn.log = function(what) {
-		if (defaults.log_level === 2) {
+		if (defaults.log_level >= 2) {
 			_send(defaults.log_url, what);
 		}
 

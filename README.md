@@ -17,7 +17,7 @@ The first thing that needs be done is you need to specify the urls the messages 
 		error_url: '/log?type=error',	// The url to which errors logs are sent
 		info_url: '/log?type=info',		// The url to which info logs are sent
 		log_url: '/log?type=log',		// The url to which standard logs are sent
-		log_level: 1,					// The level at which to log. This allows you to keep the calls to the logging in your code and just change this variable to log varying degrees. 1 = error, 2 = log, 3 = info
+		log_level: 1,					// The level at which to log. This allows you to keep the calls to the logging in your code and just change this variable to log varying degrees. 1 = only error, 2 = error & log, 3 = error, log & info
 		query_var: 'msg',				// The variable to send the log message through as.
 		client_info: {					// Configuration for what info about the client's browser is logged.
 			location:true,				//	The url to the page on which the error occurred.
