@@ -13,6 +13,7 @@
 		error_url: '/log?type=error',
 		info_url: '/log?type=info',
 		log_url: '/log?type=log',
+		log_level: 1,
 		query_var: 'msg',
 		client_info: {
 			user_agent:true,
@@ -27,17 +28,26 @@
 	};
 
 	$.fn.error = function(what) {
-		_send(defaults.error_url, what);
+		if (defaults.log_level === 1) {
+			_send(defaults.error_url, what);
+		}
+
 		if(window.console&&window.console.error)console.error.apply(this, arguments);
 	};
 
 	$.fn.info = function(what) {
-		_send(defaults.info_url, what);
+		if (defaults.log_level === 3) {
+			_send(defaults.info_url, what);
+		}
+
 		if(window.console&&window.console.info)console.info.apply(this, arguments);
 	};
 
 	$.fn.log = function(what) {
-		_send(defaults.log_url, what);
+		if (defaults.log_level === 2) {
+			_send(defaults.log_url, what);
+		}
+
 		if(window.console&&window.console.log)console.log.apply(this, arguments);
 	};
 
