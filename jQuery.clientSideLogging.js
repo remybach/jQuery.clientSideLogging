@@ -61,12 +61,11 @@
 		}
 
 		format = 'text';
-
 		if (typeof what === 'object') {
 			// Let's grab the additional logging info before we send this off.
 			format = 'json';
 
-			$.extend(what, _buildClientInfo);
+			$.extend(what, _buildClientInfo());
 			what = JSON.stringify(what);
 		}
 
