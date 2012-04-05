@@ -33,40 +33,111 @@
 		$.extend(defaults, options || {});
 	};
 
+	// Compatibility functions for IE
+	if (!Function.prototype.bind) {
+		Function.prototype.bind = function (oThis) {
+			if (typeof this !== "function") {
+				// closest thing possible to the ECMAScript 5 internal IsCallable function
+				throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+			}
+
+			var aArgs = Array.prototype.slice.call(arguments, 1),
+			fToBind = this,
+			fNOP = function () {},
+			fBound = function () {
+				return fToBind.apply(this instanceof fNOP
+				? this
+				: oThis || window,
+				aArgs.concat(Array.prototype.slice.call(arguments)));
+			};
+
+			fNOP.prototype = this.prototype;
+			fBound.prototype = new fNOP();
+
+			return fBound;
+		};
+	}
+
+	if (!Array.prototype.forEach) {
+		Array.prototype.forEach = function( callback, thisArg ) {
+			var T, k;
+			if ( this == null ) {
+				throw new TypeError("this is null or not defined");
+			}
+
+			var O = Object(this);
+			var len = O.length >>> 0;
+
+			if ( {}.toString.call(callback) != "[object Function]" ) {
+				throw new TypeError( callback + " is not a function" );
+			}
+
+			if ( thisArg ) {
+				T = thisArg;
+			}
+
+			k = 0;
+			while( k < len ) {
+				var kValue;
+				if ( k in O ) {
+					kValue = O[ k ];
+					callback.call( T, kValue, k, O );
+				}
+				k++;
+			}
+		};
+	}
+
+	// Make console.* behave like proper Functions in IE.
+	if (Function.prototype.bind && console && typeof console.log == "object") {
+		["log","info","warn","error","assert","dir","clear","profile","profileEnd"].forEach(function (method) {
+		    console[method] = this.bind(console[method], console);
+		}, Function.prototype.call);
+	};
+
    /**
     * The function that will send error logs to the server. Also logs to the console using console.error() (if available and requested by the user)
     * @param what What you want to be logged (String, or JSON object)
     */
-	$.error = function(what) {
+    var original_error = console.error;
+	console.error = function(what) {
 		if (defaults.log_level >= 1) {
 			_send(defaults.error_url, what);
 		}
 
-		if(window.console&&window.console.error&&defaults.use_console)console.error(what);
+		if ( original_error.apply ) {
+			original_error.apply(this, arguments);
+		}
 	};
 
    /**
     * The function that will send info logs to the server. Also logs to the console using console.info() (if available and requested by the user)
     * @param what What you want to be logged (String, or JSON object)
     */
-	$.info = function(what) {
+    var original_info = console.info;
+	console.info = function(what) {
 		if (defaults.log_level >= 3) {
 			_send(defaults.info_url, what);
 		}
 
-		if(window.console&&window.console.info&&defaults.use_console)console.info(what);
+		if ( origin_info.apply ) {
+			original_info.apply(this, arguments);
+		}
 	};
 
    /**
     * The function that will send standard logs to the server. Also logs to the console using console.log() (if available and requested by the user)
     * @param what What you want to be logged (String, or JSON object)
     */
-	$.log = function(what) {
+    var original_log = console.log;
+	console.log = function(what) {
 		if (defaults.log_level >= 2) {
 			_send(defaults.log_url, what);
 		}
 
-		if(window.console&&window.console.log&&defaults.use_console)console.log(what);
+		if ( original_log.apply ) {
+			original_log.apply(this, arguments);
+		}
 	};
 
    // Log errors whenever there's a generic js error on the page.
