@@ -11,8 +11,13 @@ define('IP_ADDRESS', $_SERVER['REMOTE_ADDR']);
 if ( empty($_REQUEST['msg']) ) {
 	die;
 }
-
 $message = $_REQUEST['msg'];
+
+// If the error severity isn't specified, assume the lowest.
+$type = 'info';
+if ( !empty($_REQUEST['type']) ) {
+	$type = $_REQUEST['type'];
+}
 
 // Initially, assume that this client hasn't logged anything in the last minute.
 $has_accessed = false;
@@ -83,7 +88,8 @@ if ( empty($log) ) {
 $entry = array(
 	'time'    => date('Y-m-d H:i:s'),
 	'message' => $message,
-	'hash'    => sha1($message)
+	'type'    => $type,
+	'hash'    => sha1("$type:$message")
 );
 
 $log_entry = json_encode($entry);
