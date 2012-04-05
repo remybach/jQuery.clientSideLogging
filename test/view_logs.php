@@ -98,7 +98,7 @@ if ( !empty($_REQUEST['type']) ) {
 					<li class="nav-header">Type:</li>
 					<?php foreach ( array('error', 'info', 'log') as $type ) : ?>
 
-					<?php $active = ( $type == $_REQUEST['type'] ) ? 'active' : ''; ?>
+					<?php $active = ( !empty($_REQUEST['type']) && $type == $_REQUEST['type'] ) ? 'active' : ''; ?>
 					<li class="<?php echo $active ?>"><a href="?type=<?php echo $type ?>"><?php echo ucwords($type) ?></a></li>
 					<?php endforeach ?>
 				</ul>
