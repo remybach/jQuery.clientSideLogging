@@ -38,9 +38,13 @@ Once you've specified the urls (or are happy with the defaults), you have three 
 * `$.info(what)` - Send an info message to the server, also does a console.info (if available)
 * `$.log(what)` - Send a log message to the server, also does a console.log (if available)
 
-If a string is received, the `query_var` option is what will be passed to the url... so using the default would make the following post request:
+If a string is received, the info will be sent to the backend as a normal post request which might look similar to the following:
 
-	$.post('/log?type=error&msg=YOUR_ERROR_MESSAGE');
+	$.post('/log?type=error&msg=YOUR_ERROR_MESSAGE&location=http://location.to/your/page');
+
+Otherwise if a JSON object is received, the info will be sent as an encoded JSON string that can be decoded on the backend.
+
+Lastly, the client information will get sent through named as displayed above.
 
 ## TODOs
 
