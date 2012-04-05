@@ -1,3 +1,29 @@
+<?php
+
+define('LOG_FILE', dirname(__FILE__) . '/log.txt');
+
+$log_json = file_get_contents(LOG_FILE);
+$logs = json_decode($log_json);
+if ( !$logs ) {
+	$logs = array();
+}
+
+function format_log($log) {
+	$log->decoded_message = $log->message;
+	if ( $log->format == 'json' ) {
+		$log->decoded_message = '<pre>' . print_r(json_decode($log->message), 1) . '</pre>';
+	}
+}
+
+foreach ( (array) $logs->incidence as $log ) {
+	$log = format_log($log);
+}
+
+foreach ( (array) $logs->log as $log ) {
+	$log = format_log($log);
+}
+
+?>
 <!doctype html>
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
@@ -43,12 +69,14 @@
 						</tr>
 					</thead>
 					<tbody>
+						<?php foreach ( $logs->incidence as $log ) : ?>
 						<tr>
-							<td>29</td>
+							<td><?php echo $log->count ?></td>
 							<td>
-								<pre>var_dump of the json object to go in here?</pre>
+								<?php echo $log->decoded_message ?>
 							</td>
 						</tr>
+						<?php endforeach ?>
 					</tbody>
 				</table>
 
@@ -59,36 +87,16 @@
 						<th>Message</th>
 					</thead>
 					<tbody>
+						<?php foreach ( $logs->log as $log ) : ?>
 						<tr>
-							<td>0000-00-00 00:00:00</td>
-							<td>String value of item</td>
+							<td><?php echo $log->time ?></td>
+							<td><?php echo $log->decoded_message ?></td>
 						</tr>
-						<tr>
-							<td>0000-00-00 00:00:00</td>
-							<td>String value of item</td>
-						</tr>
-						<tr>
-							<td>0000-00-00 00:00:00</td>
-							<td>String value of item</td>
-						</tr>
-						<tr>
-							<td>0000-00-00 00:00:00</td>
-							<td>String value of item</td>
-						</tr>
-						<tr>
-							<td>0000-00-00 00:00:00</td>
-							<td>String value of item</td>
-						</tr>
-						<tr>
-							<td>0000-00-00 00:00:00</td>
-							<td>String value of item</td>
-						</tr>
-						<tr>
-							<td>0000-00-00 00:00:00</td>
-							<td>String value of item</td>
-						</tr>
+						<?php endforeach ?>
 					</tbody>
 				</table>
+
+				<?php /*
 				<div class="pagination">
 					<ul>
 						<li><a href="#">Prev</a></li>
@@ -99,6 +107,7 @@
 						<li><a href="#">Next</a></li>
 					</ul>
 				</div>
+				*/ ?>
 			</div>
 		</div>
 	</div> <!--! end of #container -->
