@@ -41,6 +41,23 @@ usort(
 	}
 );
 
+// If we've been given a type, filter by type; otherwise display everything.
+if ( !empty($_REQUEST['type']) ) {
+	$filter_type = function($log) {
+		return ( $log->type == $_REQUEST['type'] );
+	};
+
+	$logs->incidence = array_filter(
+		$logs->incidence,
+		$filter_type
+	);
+
+	$logs->log = array_filter(
+		$logs->log,
+		$filter_type
+	);
+}
+
 ?>
 <!doctype html>
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
@@ -72,9 +89,11 @@ usort(
 			<aside class="span2">
 				<ul class="nav nav-list">
 					<li class="nav-header">Type:</li>
-					<li class="active"><a href="#">Error</a></li>
-					<li><a href="#">Info</a></li>
-					<li><a href="#">Log</a></li>
+					<?php foreach ( array('error', 'info', 'log') as $type ) : ?>
+
+					<?php $active = ( $type == $_REQUEST['type'] ) ? 'active' : ''; ?>
+					<li class="<?php echo $active ?>"><a href="?type=<?php echo $type ?>"><?php echo ucwords($type) ?></a></li>
+					<?php endforeach ?>
 				</ul>
 			</aside>
 			<div class="span10">
