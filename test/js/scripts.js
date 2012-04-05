@@ -11,11 +11,11 @@ jQuery(function($) {
 		initLogging();
 
 		if ($(this).hasClass('error')) {
-			$.error({ msg: $(this).parents('li').find('input:text').val() });
+			$.error($(this).parents('li').find('input:text').val());
 		} else if ($(this).hasClass('info')) {
-			$.info({ msg: $(this).parents('li').find('input:text').val() });
+			$.info($(this).parents('li').find('input:text').val());
 		} else if ($(this).hasClass('log')) {
-			$.log({ msg: $(this).parents('li').find('input:text').val() });
+			$.log($(this).parents('li').find('input:text').val());
 		}
 
 		location.href = '';
@@ -40,6 +40,7 @@ jQuery(function($) {
 			info_url: 'log.php?type=info',
 			log_url: 'log.php?type=log',
 			log_level: 3,
+			native_error:true,
 			use_console:false,
 			client_info: {
 				location:location,

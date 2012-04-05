@@ -27,19 +27,19 @@
 		<div id="main-container" class="row-fluid">
 			<aside class="span4">
 				<ul>
-					<li>
+					<li class="checkbox">
 						<input type="checkbox" id="location" name="location" value="">
 						<label for="location">Location</label>
 					</li>
-					<li>
+					<li class="checkbox">
 						<input type="checkbox" id="screen_size" name="screen_size" value="">
 						<label for="screen_size">Screen Size</label>
 					</li>
-					<li>
+					<li class="checkbox">
 						<input type="checkbox" id="user_agent" name="user_agent" value="">
 						<label for="user_agent">User Agent String</label>
 					</li>
-					<li>
+					<li class="checkbox">
 						<input type="checkbox" id="window_size" name="window_size" value="">
 						<label for="window_size">Window Size</label>
 					</li>
@@ -57,26 +57,6 @@
 					</li>
 				</ul>
 			</aside>
-			<div id="main" role="main" class="span8">
-				<section class="error">
-					<header>
-						<h1>Error Log</h1>
-					</header>
-					<pre class="log_info"><?php echo file_get_contents('/test/log/error.txt'); ?></pre>
-				</section>
-				<section class="info">
-					<header>
-						<h1>Info Log</h1>
-					</header>
-					<pre class="log_info"><?php echo file_get_contents('/test/log/info.txt'); ?></pre>
-				</section>
-				<section class="log">
-					<header>
-						<h1>Standard Log</h1>
-					</header>
-					<pre class="log_info"><?php echo file_get_contents('/test/log/log.txt'); ?></pre>
-				</section>
-			</div>
 		</div>
 	</div> <!--! end of #container -->
 
