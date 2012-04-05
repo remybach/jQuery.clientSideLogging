@@ -96,10 +96,12 @@ if ( !empty($_REQUEST['type']) ) {
 			<aside class="span2">
 				<ul class="nav nav-list">
 					<li class="nav-header">Type:</li>
-					<?php foreach ( array('error', 'info', 'log') as $type ) : ?>
 
-					<?php $active = ( !empty($_REQUEST['type']) && $type == $_REQUEST['type'] ) ? 'active' : ''; ?>
-					<li class="<?php echo $active ?>"><a href="?type=<?php echo $type ?>"><?php echo ucwords($type) ?></a></li>
+					<li<?php echo empty($_REQUEST['type']) ? ' class="active"' : ''; ?>><a href="view_logs.php">All</a></li>
+
+					<?php foreach ( array('error', 'info', 'log') as $type ) : ?>
+					<?php $active = ( !empty($_REQUEST['type']) && $type == $_REQUEST['type'] ) ? ' class="active"' : ''; ?>
+					<li<?php echo $active ?>><a href="?type=<?php echo $type ?>"><?php echo ucwords($type) ?></a></li>
 					<?php endforeach ?>
 				</ul>
 			</aside>
