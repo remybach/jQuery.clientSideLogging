@@ -1,5 +1,27 @@
 <?php
 
+function stripslashes_deep($value) {
+	if ( is_array($value) ) {
+		$value = array_map('stripslashes_deep', $value);
+	} elseif ( is_object($value) ) {
+		$vars = get_object_vars( $value );
+		foreach ($vars as $key=>$data) {
+			$value->{$key} = stripslashes_deep( $data );
+		}
+	} else {
+		$value = stripslashes($value);
+	}
+
+	return $value;
+}
+
+if ( get_magic_quotes_gpc() ) {
+	$_POST    = array_map('stripslashes_deep', $_POST);
+	$_GET     = array_map('stripslashes_deep', $_GET);
+	$_COOKIE  = array_map('stripslashes_deep', $_COOKIE);
+	$_REQUEST = array_map('stripslashes_deep', $_REQUEST);
+}
+
 define('LOG_FILE', dirname(__FILE__) . '/log.txt');
 define('ACCESS_FILE', dirname(__FILE__) . '/access.txt');
 
@@ -17,6 +39,13 @@ $message = $_REQUEST['msg'];
 $type = 'info';
 if ( !empty($_REQUEST['type']) ) {
 	$type = $_REQUEST['type'];
+}
+
+// Accept different formats of message; for now, that's plain-text and JSON.
+$formats = array('text', 'json');
+$format = 'text';
+if ( !empty($_REQUEST['format']) && in_array($_REQUEST['format'], $formats) ) {
+	$format = $_REQUEST['format'];
 }
 
 // Initially, assume that this client hasn't logged anything in the last minute.
@@ -89,6 +118,7 @@ $entry = array(
 	'time'    => date('Y-m-d H:i:s'),
 	'message' => $message,
 	'type'    => $type,
+	'format'  => $format,
 	'hash'    => sha1("$type:$message")
 );
 
@@ -97,8 +127,11 @@ $log_entry = json_encode($entry);
 // First, increment our hitrate log for this entry.
 if ( empty($log->incidence->{$entry['hash']}) ) {
 	$log->incidence->{$entry['hash']} = (object) array(
-		'message' => $entry['message'],
-		'count'   => 1
+		'first_logged' => $entry['time'],
+		'message'      => $entry['message'],
+		'type'         => $entry['type'],
+		'format'       => $entry['format'],
+		'count'        => 1
 	);
 } else {
 	$log->incidence->{$entry['hash']}->count++;
