@@ -14,13 +14,16 @@ The plugin has the ability to include some useful stats like the user agent, win
 The first thing that needs be done is you need to specify the urls the messages will be sent to (the ones in the example below are the default ones):
 
 	$.clientSideLogging({
-		error_url: '/error',
-		info_url: '/info',
-		log_url: '/log',
-		query_var: 'msg',
-		client_info: {
-			user_agent:true,
-			window_size:true
+		error_url: '/log?type=error',	// The url to which errors logs are sent
+		info_url: '/log?type=info',		// The url to which info logs are sent
+		log_url: '/log?type=log',		// The url to which standard logs are sent
+		log_level: 1,					// The level at which to log. This allows you to keep the calls to the logging in your code and just change this variable to log varying degrees. 1 = error, 2 = log, 3 = info
+		query_var: 'msg',				// The variable to send the log message through as.
+		client_info: {					// Configuration for what info about the client's browser is logged.
+			location:true,				//	The url to the page on which the error occurred.
+			screen_size:true,			//	The size of the user's screen (different to the window size because the window might not be maximized)
+			user_agent:true,			//	The user agent string.
+			window_size:true			//	The window size.
 		}
 	});
 
@@ -34,15 +37,10 @@ Once you've specified the urls (or are happy with the defaults), you have three 
 
 If a string is received, the `query_var` option is what will be passed to the url... so using the default would make the following post request:
 
-	$.post('/error?msg=YOUR_ERROR_MESSAGE');
-
-If it's a json formatted object, this will get passed as a data object as follows:
-
-	$.post('/error', { your:custom, information:here });
+	$.post('/log?type=error&msg=YOUR_ERROR_MESSAGE');
 
 ## TODOs
 
 * Actually get around to testing this properly.
 * Add the ability to pass in success and error callbacks.
-* Make the _buildClientInfo function accommodate strings too.
 * Add more choices to the client_info option.
