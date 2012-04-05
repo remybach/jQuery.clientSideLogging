@@ -14,6 +14,7 @@
 		info_url: '/log?type=info',
 		log_url: '/log?type=log',
 		log_level: 1,
+		native_error:false,
 		use_console:true,
 		query_var: 'msg',
 		client_info: {
@@ -50,6 +51,16 @@
 		}
 
 		if(window.console&&window.console.log&&defaults.use_console)console.log(what);
+	};
+
+	window.onerror = function(message, file, line) {
+		if (defaults.native_error) {
+			_send(defaults.error_url, {
+				message: message,
+				file: file,
+				line: line
+			});
+		}
 	};
 
 	/*===== Private Functions =====*/

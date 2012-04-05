@@ -20,6 +20,7 @@ The first thing that needs be done is you need to specify the urls the messages 
 		info_url: '/log?type=info',		// The url to which info logs are sent
 		log_url: '/log?type=log',		// The url to which standard logs are sent
 		log_level: 1,					// The level at which to log. This allows you to keep the calls to the logging in your code and just change this variable to log varying degrees. 1 = only error, 2 = error & log, 3 = error, log & info
+		native_error:false,				// Whether or not to send native js errors as well (using window.onerror).
 		use_console:true,				// Whether to show a console.error/info/log as well (when a console is present)
 		query_var: 'msg',				// The variable to send the log message through as.
 		client_info: {					// Configuration for what info about the client's browser is logged.
