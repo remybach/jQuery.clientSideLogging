@@ -35,7 +35,11 @@ usort(
 	$logs->incidence,
 	function($a, $b) {
 		if ( $a->count == $b->count ) {
-			return 0;
+			// If the counts are the same, sort by most recent.
+			if ( $a->first_logged == $b->first_logged ) {
+				return 0;
+			}
+			return ( $a->first_logged < $b->first_logged ) ? 1 : -1;
 		}
 		// We're sorting descending.
 		return ( $a->count < $b->count ) ? 1 : -1;
