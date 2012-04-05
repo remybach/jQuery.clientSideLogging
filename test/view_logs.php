@@ -14,8 +14,10 @@ $logs->incidence = get_object_vars($logs->incidence);
 function format_log($log) {
 	$log->decoded_message = $log->message;
 	if ( $log->format == 'json' ) {
-		$log->decoded_message = '<pre>' . print_r(json_decode($log->message), 1) . '</pre>';
+		$log->decoded_message = print_r(json_decode($log->message), 1);
 		$log->decoded_message = preg_replace('/stdClass Object\s*/', '', $log->decoded_message);
+		$log->decoded_message = htmlentities($log->decoded_message);
+		$log->decoded_message = '<pre>' . $log->decoded_message . '</pre>';
 	}
 }
 
