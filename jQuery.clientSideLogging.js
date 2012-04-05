@@ -14,6 +14,7 @@
 		info_url: '/log?type=info',
 		log_url: '/log?type=log',
 		log_level: 1,
+		use_console:true,
 		query_var: 'msg',
 		client_info: {
 			location:false,
@@ -32,7 +33,7 @@
 			_send(defaults.error_url, what);
 		}
 
-		if(window.console&&window.console.error)console.error(what);
+		if(window.console&&window.console.error&&defaults.use_console)console.error(what);
 	};
 
 	$.info = function(what) {
@@ -40,7 +41,7 @@
 			_send(defaults.info_url, what);
 		}
 
-		if(window.console&&window.console.info)console.info(what);
+		if(window.console&&window.console.info&&defaults.use_console)console.info(what);
 	};
 
 	$.log = function(what) {
@@ -48,7 +49,7 @@
 			_send(defaults.log_url, what);
 		}
 
-		if(window.console&&window.console.log)console.log(what);
+		if(window.console&&window.console.log&&defaults.use_console)console.log(what);
 	};
 
 	/*===== Private Functions =====*/
