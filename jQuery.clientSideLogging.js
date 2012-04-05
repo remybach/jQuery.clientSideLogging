@@ -15,7 +15,7 @@
 		log_url: '/log?type=log',
 		log_level: 1,
 		native_error:false,
-		use_console:true,
+		use_console:false,
 		query_var: 'msg',
 		client_info: {
 			location:false,
