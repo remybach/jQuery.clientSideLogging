@@ -16,10 +16,10 @@
 		log_level: 1,
 		query_var: 'msg',
 		client_info: {
-			user_agent:true,
-			window_size:true,
+			location:true,
 			screen_size:true,
-			location:true
+			user_agent:true,
+			window_size:true
 		}
 	};
 
