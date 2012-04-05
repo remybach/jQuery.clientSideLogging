@@ -23,32 +23,32 @@
 		}
 	};
 
-	$.fn.clientSideLogging = function(options) {
+	$.clientSideLogging = function(options) {
 		$.extend(defaults, options || {});
 	};
 
-	$.fn.error = function(what) {
+	$.error = function(what) {
 		if (defaults.log_level >= 1) {
 			_send(defaults.error_url, what);
 		}
 
-		if(window.console&&window.console.error)console.error.apply(this, arguments);
+		if(window.console&&window.console.error)console.error(what);
 	};
 
-	$.fn.info = function(what) {
+	$.info = function(what) {
 		if (defaults.log_level >= 3) {
 			_send(defaults.info_url, what);
 		}
 
-		if(window.console&&window.console.info)console.info.apply(this, arguments);
+		if(window.console&&window.console.info)console.info(what);
 	};
 
-	$.fn.log = function(what) {
+	$.log = function(what) {
 		if (defaults.log_level >= 2) {
 			_send(defaults.log_url, what);
 		}
 
-		if(window.console&&window.console.log)console.log.apply(this, arguments);
+		if(window.console&&window.console.log)console.log(what);
 	};
 
 	/*===== Private Functions =====*/
