@@ -1,7 +1,7 @@
 /*
  *	Title: jQuery Client Side Logging Plugin
  *	Author: Rémy Bach
- *	Version: 0.1.0
+ *	Version: 1.0.0
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.clientSideLogging
  *	Description:

@@ -1,11 +1,5 @@
 # jQuery Client Side Logging Plugin
 
-## NOTE
-
-This is in an alpha state. I've had the chance to test it from the front end, and if my console in Chrome is to be believed, then everything's being sent through as expected and the back end should hopefully be receiving things correctly.
-
-If anyone wants to contribute and take part in this, feel free!
-
 ## About
 
 The idea behind this plugin was born from [reading this article](http://openmymind.net/2012/4/4/You-Really-Should-Log-Client-Side-Error/).
@@ -32,6 +26,7 @@ The first thing that needs be done is you need to specify the urls the messages 
 	});
 
 *Important to note* at this point is that you need to have something set up on the server side to receive the errors and handle them accordingly.
+Thanks to [Rob Miller](https://github.com/robmiller) for the example logging functionality and for contributing in general. You can find this in the [test directory](https://github.com/remybach/jQuery.clientSideLogging/tree/master/test)
 
 Once you've specified the urls (or are happy with the defaults), you have three utility/wrapper functions available to you (all of which receive either a string or a json formatted object):
 
@@ -41,12 +36,6 @@ Once you've specified the urls (or are happy with the defaults), you have three 
 
 If a string is received, the info will be sent to the backend as a normal post request which might look similar to the following:
 
-	$.post('/log?type=error&msg=YOUR_ERROR_MESSAGE&location=http://location.to/your/page');
+	$.post('/log?type=error&msg=YOUR_ERROR_MESSAGE');
 
 Otherwise if a JSON object is received, the info will be sent as an encoded JSON string that can be decoded on the backend.
-
-Lastly, the client information will get sent through named as displayed above.
-
-## TODOs
-
-* Actually get around to testing this properly.
