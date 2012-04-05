@@ -8,6 +8,12 @@ define('THROTTLE_TIME', 60);
 
 define('IP_ADDRESS', $_SERVER['REMOTE_ADDR']);
 
+if ( empty($_REQUEST['msg']) ) {
+	die;
+}
+
+$message = $_REQUEST['msg'];
+
 // Initially, assume that this client hasn't logged anything in the last minute.
 $has_accessed = false;
 
@@ -55,3 +61,50 @@ file_put_contents(ACCESS_FILE, join("\n", $accesses));
 if ( $has_accessed ) {
 	die;
 }
+
+// Nonsense over! Let's log this baby.
+if ( !file_exists(LOG_FILE) ) {
+	if ( is_writable(dirname(LOG_FILE)) ) {
+		touch(LOG_FILE);
+	} else {
+		die;
+	}
+}
+
+$log = json_decode(file_get_contents(LOG_FILE));
+
+if ( empty($log) ) {
+	$log = (object) array(
+		'incidence' => array(),
+		'log'       => array()
+	);
+}
+
+$entry = array(
+	'time'    => date('Y-m-d H:i:s'),
+	'message' => $message,
+	'hash'    => sha1($message)
+);
+
+$log_entry = json_encode($entry);
+
+// First, increment our hitrate log for this entry.
+$incidence =& $log->incidence->{$entry['hash']};
+if ( !empty($incidence) ) {
+	$incidence->count++;
+} else {
+	$incidence = (object) array(
+		'message' => $entry['message'],
+		'count'   => 1
+	);
+}
+
+// Now, insert a log entry.
+if ( empty($log->log) ) {
+	$log->log = array();
+}
+
+$log->log[] = $entry;
+
+$json_log = json_encode($log);
+file_put_contents(LOG_FILE, $json_log);
