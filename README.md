@@ -50,5 +50,3 @@ Lastly, the client information will get sent through named as displayed above.
 ## TODOs
 
 * Actually get around to testing this properly.
-* Add the ability to pass in success and error callbacks.
-* Add more choices to the client_info option.
