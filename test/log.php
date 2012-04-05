@@ -127,8 +127,11 @@ $log_entry = json_encode($entry);
 // First, increment our hitrate log for this entry.
 if ( empty($log->incidence->{$entry['hash']}) ) {
 	$log->incidence->{$entry['hash']} = (object) array(
-		'message' => $entry['message'],
-		'count'   => 1
+		'first_logged' => $entry['time'],
+		'message'      => $entry['message'],
+		'type'         => $entry['type'],
+		'format'       => $entry['format'],
+		'count'        => 1
 	);
 } else {
 	$log->incidence->{$entry['hash']}->count++;
