@@ -1,5 +1,27 @@
 <?php
 
+function stripslashes_deep($value) {
+	if ( is_array($value) ) {
+		$value = array_map('stripslashes_deep', $value);
+	} elseif ( is_object($value) ) {
+		$vars = get_object_vars( $value );
+		foreach ($vars as $key=>$data) {
+			$value->{$key} = stripslashes_deep( $data );
+		}
+	} else {
+		$value = stripslashes($value);
+	}
+
+	return $value;
+}
+
+if ( get_magic_quotes_gpc() ) {
+	$_POST    = array_map('stripslashes_deep', $_POST);
+	$_GET     = array_map('stripslashes_deep', $_GET);
+	$_COOKIE  = array_map('stripslashes_deep', $_COOKIE);
+	$_REQUEST = array_map('stripslashes_deep', $_REQUEST);
+}
+
 define('LOG_FILE', dirname(__FILE__) . '/log.txt');
 define('ACCESS_FILE', dirname(__FILE__) . '/access.txt');
 
