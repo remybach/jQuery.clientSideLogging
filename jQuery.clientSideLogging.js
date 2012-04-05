@@ -1,7 +1,7 @@
 /*
  *	Title: jQuery Client Side Logging Plugin
  *	Author: Rémy Bach
- *	Version: 0.0.2
+ *	Version: 0.1.0
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.clientSideLogging
  *	Description:
@@ -25,10 +25,18 @@
 		}
 	};
 
+   /**
+	* Initializing with custom options. Not strictly necessary, but recommended.
+	* @param  options The custom options.
+	*/
 	$.clientSideLogging = function(options) {
 		$.extend(defaults, options || {});
 	};
 
+   /**
+    * The function that will send error logs to the server. Also logs to the console using console.error() (if available and requested by the user)
+    * @param what What you want to be logged (String, or JSON object)
+    */
 	$.error = function(what) {
 		if (defaults.log_level >= 1) {
 			_send(defaults.error_url, what);
@@ -37,6 +45,10 @@
 		if(window.console&&window.console.error&&defaults.use_console)console.error(what);
 	};
 
+   /**
+    * The function that will send info logs to the server. Also logs to the console using console.info() (if available and requested by the user)
+    * @param what What you want to be logged (String, or JSON object)
+    */
 	$.info = function(what) {
 		if (defaults.log_level >= 3) {
 			_send(defaults.info_url, what);
@@ -45,6 +57,10 @@
 		if(window.console&&window.console.info&&defaults.use_console)console.info(what);
 	};
 
+   /**
+    * The function that will send standard logs to the server. Also logs to the console using console.log() (if available and requested by the user)
+    * @param what What you want to be logged (String, or JSON object)
+    */
 	$.log = function(what) {
 		if (defaults.log_level >= 2) {
 			_send(defaults.log_url, what);
@@ -53,6 +69,7 @@
 		if(window.console&&window.console.log&&defaults.use_console)console.log(what);
 	};
 
+   // Log errors whenever there's a generic js error on the page.
 	window.onerror = function(message, file, line) {
 		if (defaults.native_error) {
 			_send(defaults.error_url, {
@@ -64,7 +81,13 @@
 	};
 
 	/*===== Private Functions =====*/
+   /**
+    * Send the log information to the server.
+    * @param url The url to submit the information to.
+    * @param what The information to be logged.
+    */
 	_send = function(url, what) {
+		// If the url already has a ? in it.
 		if (url.match(/\?.+$/)) {
 			url += '&';
 		} else {
@@ -73,9 +96,9 @@
 
 		format = 'text';
 		if (typeof what === 'object') {
-			// Let's grab the additional logging info before we send this off.
 			format = 'json';
 
+			// Let's grab the additional logging info before we send this off.
 			$.extend(what, _buildClientInfo());
 			what = JSON.stringify(what);
 		} else {
@@ -89,6 +112,10 @@
 		$.post(url);
 	};
 
+   /**
+    * Build up an object containing the requested information about the client (as specified in defaults).
+    * @return _info The object containing the requested information.
+    */
 	_buildClientInfo = function() {
 		var _info = {};
 
@@ -108,7 +135,11 @@
 		return _info;
 	};
 
-	// Fallback for older browsers that don't implement JSON.stringify
+   /**
+    * Fallback for older browsers that don't implement JSON.stringify
+    * @param obj The JSON object to turn into a string.
+    * @return A string representation of the JSON object.
+    */
 	JSON.stringify = JSON.stringify || function (obj) {
 		var t = typeof (obj);
 		if (t != "object" || obj === null) {
