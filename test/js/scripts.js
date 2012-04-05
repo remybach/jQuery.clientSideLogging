@@ -36,9 +36,9 @@ jQuery(function($) {
 
 	function initLogging() {
 		$.clientSideLogging({
-			error_url: '/test/log?type=error',
-			info_url: '/test/log?type=info',
-			log_url: '/test/log?type=log',
+			error_url: 'log.php?type=error',
+			info_url: 'log.php?type=info',
+			log_url: 'log.php?type=log',
 			log_level: 3,
 			use_console:false,
 			client_info: {
