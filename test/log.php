@@ -80,7 +80,7 @@ $log = json_decode(file_get_contents(LOG_FILE));
 
 if ( empty($log) ) {
 	$log = (object) array(
-		'incidence' => array(),
+		'incidence' => (object) array(),
 		'log'       => array()
 	);
 }
@@ -95,14 +95,13 @@ $entry = array(
 $log_entry = json_encode($entry);
 
 // First, increment our hitrate log for this entry.
-$incidence =& $log->incidence->{$entry['hash']};
-if ( !empty($incidence) ) {
-	$incidence->count++;
-} else {
-	$incidence = (object) array(
+if ( empty($log->incidence->{$entry['hash']}) ) {
+	$log->incidence->{$entry['hash']} = (object) array(
 		'message' => $entry['message'],
 		'count'   => 1
 	);
+} else {
+	$log->incidence->{$entry['hash']}->count++;
 }
 
 // Now, insert a log entry.
@@ -114,3 +113,4 @@ $log->log[] = $entry;
 
 $json_log = json_encode($log);
 file_put_contents(LOG_FILE, $json_log);
+
