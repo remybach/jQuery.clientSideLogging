@@ -19,6 +19,13 @@ if ( !empty($_REQUEST['type']) ) {
 	$type = $_REQUEST['type'];
 }
 
+// Accept different formats of message; for now, that's plain-text and JSON.
+$formats = array('text', 'json');
+$format = 'text';
+if ( !empty($_REQUEST['format']) && in_array($_REQUEST['format'], $formats) ) {
+	$format = $_REQUEST['format'];
+}
+
 // Initially, assume that this client hasn't logged anything in the last minute.
 $has_accessed = false;
 
@@ -89,6 +96,7 @@ $entry = array(
 	'time'    => date('Y-m-d H:i:s'),
 	'message' => $message,
 	'type'    => $type,
+	'format'  => $format,
 	'hash'    => sha1("$type:$message")
 );
 
