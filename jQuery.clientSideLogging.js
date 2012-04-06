@@ -16,6 +16,7 @@
 		log_level: 1,
 		native_error:false,
 		use_console:false,
+		hijack_console:true,
 		query_var: 'msg',
 		client_info: {
 			location:false,
@@ -106,46 +107,58 @@
     * The function that will send error logs to the server. Also logs to the console using console.error() (if available and requested by the user)
     * @param what What you want to be logged (String, or JSON object)
     */
-    var original_error = console.error;
-	console.error = function(what) {
+	$.error = function(what) {
 		if (defaults.log_level >= 1) {
 			_send(defaults.error_url, what);
 		}
 
-		if ( original_error.apply ) {
+		if (defaults.hijack_console && original_error.apply) {
 			original_error.apply(this, arguments);
 		}
 	};
+
+	if (defaults.hijack_console) {
+		var original_error = console.error;
+		console.error = $.error;
+	}
 
    /**
     * The function that will send info logs to the server. Also logs to the console using console.info() (if available and requested by the user)
     * @param what What you want to be logged (String, or JSON object)
     */
-    var original_info = console.info;
-	console.info = function(what) {
+	$.info = function(what) {
 		if (defaults.log_level >= 3) {
 			_send(defaults.info_url, what);
 		}
 
-		if ( origin_info.apply ) {
+		if (defaults.hijack_console && origin_info.apply) {
 			original_info.apply(this, arguments);
 		}
 	};
+
+	if (defaults.hijack_console) {
+		var original_info = console.info;
+		console.info = $.info;
+	}
 
    /**
     * The function that will send standard logs to the server. Also logs to the console using console.log() (if available and requested by the user)
     * @param what What you want to be logged (String, or JSON object)
     */
-    var original_log = console.log;
-	console.log = function(what) {
+	$.log = function(what) {
 		if (defaults.log_level >= 2) {
 			_send(defaults.log_url, what);
 		}
 
-		if ( original_log.apply ) {
+		if (defaults.hijack_console && original_log.apply) {
 			original_log.apply(this, arguments);
 		}
 	};
+
+	if (defaults.hijack_console) {
+		var original_log = console.log;
+		console.log = $.log;
+	}
 
    // Log errors whenever there's a generic js error on the page.
 	window.onerror = function(message, file, line) {
