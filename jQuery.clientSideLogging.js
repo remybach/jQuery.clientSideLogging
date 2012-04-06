@@ -38,7 +38,7 @@
 	// Function.prototype.bind
 	// See: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind#Compatibility
 	if (!Function.prototype.bind) {
-		Function.prototype.bind = function (oThis) {
+		Function.prototype.bind = function(oThis) {
 			if (typeof this !== "function") {
 				// closest thing possible to the ECMAScript 5 internal IsCallable function
 				throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
@@ -46,11 +46,13 @@
 
 			var aArgs = Array.prototype.slice.call(arguments, 1),
 			fToBind = this,
-			fNOP = function () {},
-			fBound = function () {
-				return fToBind.apply(this instanceof fNOP
-				? this
-				: oThis || window,
+			fNOP = function() {},
+			fBound = function() {
+				return fToBind.apply(
+					this instanceof fNOP
+						? this
+						: oThis
+					|| window,
 				aArgs.concat(Array.prototype.slice.call(arguments)));
 			};
 
@@ -64,27 +66,27 @@
 	// Array.prototype.forEach
 	// See: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/foreach#Compatibility
 	if (!Array.prototype.forEach) {
-		Array.prototype.forEach = function( callback, thisArg ) {
+		Array.prototype.forEach = function(callback, thisArg) {
 			var T, k;
-			if ( this == null ) {
+			if (this == null) {
 				throw new TypeError("this is null or not defined");
 			}
 
 			var O = Object(this);
 			var len = O.length >>> 0;
 
-			if ( {}.toString.call(callback) != "[object Function]" ) {
-				throw new TypeError( callback + " is not a function" );
+			if ({}.toString.call(callback) != "[object Function]") {
+				throw new TypeError(callback + " is not a function");
 			}
 
-			if ( thisArg ) {
+			if (thisArg) {
 				T = thisArg;
 			}
 
 			k = 0;
-			while( k < len ) {
+			while (k < len) {
 				var kValue;
-				if ( k in O ) {
+				if (k in O) {
 					kValue = O[ k ];
 					callback.call( T, kValue, k, O );
 				}
