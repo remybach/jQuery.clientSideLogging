@@ -14,14 +14,14 @@
 		info_url: '/log?type=info',
 		log_url: '/log?type=log',
 		log_level: 1,
-		native_error:false,
+		native_error:true,
 		use_console:false,
 		query_var: 'msg',
 		client_info: {
-			location:false,
-			screen_size:false,
-			user_agent:false,
-			window_size:false
+			location:true,
+			screen_size:true,
+			user_agent:true,
+			window_size:true
 		}
 	};
 
