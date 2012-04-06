@@ -34,7 +34,7 @@ There are some default arguments that you can override. At the very least, you s
 		}
 	});
 
-Now, to actually use it! By default, clientSideLogging hooks into `window.error`, to catch all JavaScript errors; however, you can also log values yourself, using three utility/wrapper functions. All of them accept either a plain string or a JavaScript object:
+Now, to actually use it! You can log values yourself, using three utility/wrapper functions; all of them accept either a plain string or a JavaScript object:
 
 * `$.error(what)` - Send an error message to the server; also calls console.error (if available)
 * `$.info(what)` - Send an info message to the server; also calls console.info (if available)
@@ -43,6 +43,8 @@ Now, to actually use it! By default, clientSideLogging hooks into `window.error`
 The log will be sent to the backend as a normal `POST` request, which might look like the following:
 
 	$.post('/log?type=error&msg=YOUR_ERROR_MESSAGE');
+
+If you set `native_error` to `true`, all browser errors will also be captured and passed to the backend. By default this functionality is disabled, and only errors you explicitly log will be passed to the backend.
 
 ### Backend
 
