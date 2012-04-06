@@ -33,7 +33,10 @@
 		$.extend(defaults, options || {});
 	};
 
-	// Compatibility functions for IE
+	// First, we need some compatibility functions for IE.
+
+	// Function.prototype.bind
+	// See: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind#Compatibility
 	if (!Function.prototype.bind) {
 		Function.prototype.bind = function (oThis) {
 			if (typeof this !== "function") {
@@ -58,6 +61,8 @@
 		};
 	}
 
+	// Array.prototype.forEach
+	// See: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/foreach#Compatibility
 	if (!Array.prototype.forEach) {
 		Array.prototype.forEach = function( callback, thisArg ) {
 			var T, k;
