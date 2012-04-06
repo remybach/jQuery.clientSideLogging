@@ -23,8 +23,8 @@ There are some default arguments that you can override. At the very least, you s
 		info_url: '/log?type=info',		// The url to which info logs are sent
 		log_url: '/log?type=log',		// The url to which standard logs are sent
 		log_level: 1,					// The level at which to log. This allows you to keep the calls to the logging in your code and just change this variable to log varying degrees. 1 = only error, 2 = error & log, 3 = error, log & info
-		native_error:false,				// Whether or not to send native js errors as well (using window.onerror).
-		use_console:true,				// Whether to show a console.error/info/log as well (when a console is present)
+		native_error:true,				// Whether or not to send native js errors as well (using window.onerror).
+		use_console:false,				// Whether to show a console.error/info/log as well (when a console is present)
 		query_var: 'msg',				// The variable to send the log message through as.
 		client_info: {					// Configuration for what info about the client's browser is logged.
 			location:true,				//	The url to the page on which the error occurred.
@@ -44,7 +44,7 @@ The log will be sent to the backend as a normal `POST` request, which might look
 
 	$.post('/log?type=error&msg=YOUR_ERROR_MESSAGE');
 
-If you set `native_error` to `true`, all browser errors will also be captured and passed to the backend. By default this functionality is disabled, and only errors you explicitly log will be passed to the backend.
+`native_error` is set to `true` by default. This means that all browser errors will also be captured and passed to the backend.
 
 ### Backend
 
@@ -60,4 +60,4 @@ Also included with the distribution is a PHP frontend for parsing and displaying
 
 ## Credit
 
-jQuery.clientSideLogging was developed by [Remy Bach](https://github.com/remybach) (JavaScript) and [Rob Miller](https://github.com/robmiller) (PHP).
+jQuery.clientSideLogging was developed by [Remy Bach](https://github.com/remybach) (JavaScript) and [Rob Miller](https://github.com/robmiller) (PHP).p
