@@ -30,7 +30,7 @@
 	* @param  options The custom options.
 	*/
 	$.clientSideLogging = function(options) {
-		$.extend(defaults, options || {});
+		defaults = $.extend(defaults, options || {});
 	};
 
    /**
