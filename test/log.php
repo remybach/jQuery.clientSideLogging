@@ -25,8 +25,10 @@ if ( get_magic_quotes_gpc() ) {
 define('LOG_FILE', dirname(__FILE__) . '/log.txt');
 define('ACCESS_FILE', dirname(__FILE__) . '/access.txt');
 
-// Only allow one entry per … seconds.
-define('THROTTLE_TIME', 60);
+// Only allow X entries per Y seconds. The default is to allow 15 entries
+// every 2 minutes.
+define('THROTTLE_COUNT', 15);
+define('THROTTLE_TIME', 120);
 
 define('IP_ADDRESS', $_SERVER['REMOTE_ADDR']);
 
@@ -48,9 +50,6 @@ if ( !empty($_REQUEST['format']) && in_array($_REQUEST['format'], $formats) ) {
 	$format = $_REQUEST['format'];
 }
 
-// Initially, assume that this client hasn't logged anything in the last minute.
-$has_accessed = false;
-
 if ( !file_exists(ACCESS_FILE) ) {
 	if ( is_writable(dirname(ACCESS_FILE)) ) {
 		touch(ACCESS_FILE);
@@ -62,37 +61,45 @@ if ( !file_exists(ACCESS_FILE) ) {
 $accesses = file(ACCESS_FILE);
 
 // Clear out old access logs.
+$access_count = 0;
 $accesses = array_filter(
 	$accesses,
 	function($access) {
-		global $has_accessed;
+		global $access_count;
+
+		if ( trim($access) == '' ) {
+			return false;
+		}
 
 		list($date, $ip) = explode("\t", $access);
 
 		$date = trim($date);
 		$ip = trim($ip);
 
-		$fresh = ( strtotime($date) + THROTTLE_TIME > time() );
+		// Keep entries for twice as long as the throttle time…
+		$to_keep = ( strtotime($date) + ( THROTTLE_TIME * 2 ) > time() );
+		// …but only consider ones within the throttle time.
+		$to_consider = ( strtotime($date) + THROTTLE_TIME > time() );
 
 		// If the user has accessed within the last minute, proceed with the
 		// filtering — but we won't be logging anything later.
-		if ( $fresh && $ip == IP_ADDRESS ) {
-			$has_accessed = true;
+		if ( $to_consider && $ip == IP_ADDRESS ) {
+			$access_count++;
 		}
 
-		return $fresh;
+		return $to_keep;
 	}
 );
 
 // Log an access from this IP.
-if ( !$has_accessed ) {
+if ( $access_count < THROTTLE_COUNT ) {
 	$accesses[] = date('Y-m-d H:i:s') . "\t" . IP_ADDRESS;
 }
 
 file_put_contents(ACCESS_FILE, join("\n", $accesses));
 
-// If the user has submitted a log in the last minute, bail out silently.
-if ( $has_accessed ) {
+// If the user has been throttled, bail out silently.
+if ( $access_count >= THROTTLE_COUNT ) {
 	die;
 }
 
