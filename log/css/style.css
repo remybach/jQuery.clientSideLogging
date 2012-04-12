@@ -6,5 +6,29 @@ li { margin:5px 0; }
 
 .log_info { height:150px; overflow:auto; }
 
-.type { width:30px; }
-.type.error { background:#D59392 !important; }
+.table td.type {
+	overflow:hidden;
+	position:relative;
+	text-align:center;
+	width:30px;
+}
+.type:before {
+	content:'';
+	display:block;
+	height:100%;
+	left:0;
+	position:absolute;
+	top:0;
+	width:5px;
+}
+.type.error:before {
+	background:#B94A48;
+}
+.type.log:before {
+	background:#3A87AD;
+}
+.type.info:before {
+	background:#C09853;
+}
+
+.table th.span1 { text-align:center; }
