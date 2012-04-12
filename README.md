@@ -24,7 +24,7 @@ There are some default arguments that you can override. At the very least, you s
 		log_url: '/log?type=log',		// The url to which standard logs are sent
 		log_level: 1,					// The level at which to log. This allows you to keep the calls to the logging in your code and just change this variable to log varying degrees. 1 = only error, 2 = error & log, 3 = error, log & info
 		native_error:true,				// Whether or not to send native js errors as well (using window.onerror).
-		use_console:false,				// Whether to show a console.error/info/log as well (when a console is present)
+		hijack_console:true,			// Hijacks the default console functionality (ie: all your console.error/info/log are belong to us).
 		query_var: 'msg',				// The variable to send the log message through as.
 		client_info: {					// Configuration for what info about the client's browser is logged.
 			location:true,				//	The url to the page on which the error occurred.
@@ -44,7 +44,10 @@ The log will be sent to the backend as a normal `POST` request, which might look
 
 	$.post('/log?type=error&msg=YOUR_ERROR_MESSAGE');
 
-`native_error` is set to `true` by default. This means that all browser errors will also be captured and passed to the backend.
+#### Notes
+
+* `native_error` is set to `true` by default. This means that all browser errors will also be captured and passed to the backend.
+* `hijack_console` is set to `true` by default and will log to the server as well as display your normal console.error/info/log. If you wish to keep the functionality for $.error and console.error (for example) separate, set hijack_console to false.
 
 ### Backend
 
