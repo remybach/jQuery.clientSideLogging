@@ -61,7 +61,7 @@
 			_send(defaults.info_url, what);
 		}
 
-		if (defaults.hijack_console && origin_info.apply) {
+		if (defaults.hijack_console && original_info.apply) {
 			original_info.apply(this, arguments);
 		}
 	};
