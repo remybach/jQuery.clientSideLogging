@@ -33,73 +33,6 @@
 		defaults = $.extend(defaults, options || {});
 	};
 
-	// First, we need some compatibility functions for IE.
-
-	// Function.prototype.bind
-	// See: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind#Compatibility
-	if (!Function.prototype.bind) {
-		Function.prototype.bind = function(oThis) {
-			if (typeof this !== "function") {
-				// closest thing possible to the ECMAScript 5 internal IsCallable function
-				throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-			}
-
-			var aArgs = Array.prototype.slice.call(arguments, 1),
-			fToBind = this,
-			fNOP = function() {},
-			fBound = function() {
-				return fToBind.apply(
-					this instanceof fNOP ? this : oThis || window,
-					aArgs.concat(Array.prototype.slice.call(arguments))
-				);
-			};
-
-			fNOP.prototype = this.prototype;
-			fBound.prototype = new fNOP();
-
-			return fBound;
-		};
-	}
-
-	// Array.prototype.forEach
-	// See: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/foreach#Compatibility
-	if (!Array.prototype.forEach) {
-		Array.prototype.forEach = function(callback, thisArg) {
-			var T, k;
-			if (this === null) {
-				throw new TypeError("this is null or not defined");
-			}
-
-			var O = Object(this);
-			var len = O.length >>> 0;
-
-			if ({}.toString.call(callback) != "[object Function]") {
-				throw new TypeError(callback + " is not a function");
-			}
-
-			if (thisArg) {
-				T = thisArg;
-			}
-
-			k = 0;
-			while (k < len) {
-				var kValue;
-				if (k in O) {
-					kValue = O[ k ];
-					callback.call( T, kValue, k, O );
-				}
-				k++;
-			}
-		};
-	}
-
-	// Make console.* behave like proper Functions in IE.
-	if (Function.prototype.bind && console && typeof console.log == "object") {
-		["log","info","warn","error","assert","dir","clear","profile","profileEnd"].forEach(function (method) {
-			console[method] = this.bind(console[method], console);
-		}, Function.prototype.call);
-	}
-
    /**
     * The function that will send error logs to the server. Also logs to the console using console.error() (if available and requested by the user)
     * @param what What you want to be logged (String, or JSON object)
@@ -168,7 +101,7 @@
 		}
 	};
 
-	/*===== Private Functions =====*/
+   /*===== Private Functions =====*/
    /**
     * Send the log information to the server.
     * @param url The url to submit the information to.
@@ -218,6 +151,7 @@
 		return _info;
 	};
 
+   /*===== Compatibility Functions =====*/
    /**
     * Fallback for older browsers that don't implement JSON.stringify
     * @param obj The JSON object to turn into a string.
@@ -245,4 +179,69 @@
 			return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
 		}
 	};
+
+	// Function.prototype.bind
+	// See: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind#Compatibility
+	if (!Function.prototype.bind) {
+		Function.prototype.bind = function(oThis) {
+			if (typeof this !== "function") {
+				// closest thing possible to the ECMAScript 5 internal IsCallable function
+				throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+			}
+
+			var aArgs = Array.prototype.slice.call(arguments, 1),
+			fToBind = this,
+			fNOP = function() {},
+			fBound = function() {
+				return fToBind.apply(
+					this instanceof fNOP ? this : oThis || window,
+					aArgs.concat(Array.prototype.slice.call(arguments))
+				);
+			};
+
+			fNOP.prototype = this.prototype;
+			fBound.prototype = new fNOP();
+
+			return fBound;
+		};
+	}
+
+	// Array.prototype.forEach
+	// See: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/foreach#Compatibility
+	if (!Array.prototype.forEach) {
+		Array.prototype.forEach = function(callback, thisArg) {
+			var T, k;
+			if (this === null) {
+				throw new TypeError("this is null or not defined");
+			}
+
+			var O = Object(this);
+			var len = O.length >>> 0;
+
+			if ({}.toString.call(callback) != "[object Function]") {
+				throw new TypeError(callback + " is not a function");
+			}
+
+			if (thisArg) {
+				T = thisArg;
+			}
+
+			k = 0;
+			while (k < len) {
+				var kValue;
+				if (k in O) {
+					kValue = O[ k ];
+					callback.call( T, kValue, k, O );
+				}
+				k++;
+			}
+		};
+	}
+
+	// Make console.* behave like proper Functions in IE.
+	if (Function.prototype.bind && console && typeof console.log == "object") {
+		["log","info","warn","error","assert","dir","clear","profile","profileEnd"].forEach(function (method) {
+			console[method] = this.bind(console[method], console);
+		}, Function.prototype.call);
+	}
 })(jQuery);
