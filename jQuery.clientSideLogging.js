@@ -15,7 +15,6 @@
 		log_url: '/log?type=log',
 		log_level: 1,
 		native_error:false,
-		use_console:false,
 		hijack_console:true,
 		query_var: 'msg',
 		client_info: {
