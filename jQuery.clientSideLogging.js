@@ -50,11 +50,9 @@
 			fNOP = function() {},
 			fBound = function() {
 				return fToBind.apply(
-					this instanceof fNOP
-						? this
-						: oThis
-					|| window,
-				aArgs.concat(Array.prototype.slice.call(arguments)));
+					this instanceof fNOP ? this : oThis || window,
+					aArgs.concat(Array.prototype.slice.call(arguments))
+				);
 			};
 
 			fNOP.prototype = this.prototype;
@@ -69,7 +67,7 @@
 	if (!Array.prototype.forEach) {
 		Array.prototype.forEach = function(callback, thisArg) {
 			var T, k;
-			if (this == null) {
+			if (this === null) {
 				throw new TypeError("this is null or not defined");
 			}
 
@@ -99,9 +97,9 @@
 	// Make console.* behave like proper Functions in IE.
 	if (Function.prototype.bind && console && typeof console.log == "object") {
 		["log","info","warn","error","assert","dir","clear","profile","profileEnd"].forEach(function (method) {
-		    console[method] = this.bind(console[method], console);
+			console[method] = this.bind(console[method], console);
 		}, Function.prototype.call);
-	};
+	}
 
    /**
     * The function that will send error logs to the server. Also logs to the console using console.error() (if available and requested by the user)
