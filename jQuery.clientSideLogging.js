@@ -223,6 +223,10 @@
     * @param obj The JSON object to turn into a string.
     * @return A string representation of the JSON object.
     */
+	var JSON;
+	if (!JSON) {
+		JSON = {};
+	}
 	JSON.stringify = JSON.stringify || function (obj) {
 		var t = typeof (obj);
 		if (t != "object" || obj === null) {
