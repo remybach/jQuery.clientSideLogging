@@ -110,13 +110,19 @@ if ( !empty($_REQUEST['type']) ) {
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
-							<th># of Incidents</th>
+							<?php if (empty($_REQUEST['type'])): ?>
+								<th class="span1">type</th>
+							<?php endif ?>
+							<th class="span2"># of Incidents</th>
 							<th>Details</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php foreach ( $logs->incidence as $log ) : ?>
 						<tr>
+							<?php if (empty($_REQUEST['type'])): ?>
+							<td class="type <?php echo $log->type ?>"><?php echo $log->type ?></td>
+							<?php endif; ?>
 							<td><?php echo $log->count ?></td>
 							<td>
 								<?php echo $log->decoded_message ?>
@@ -129,12 +135,18 @@ if ( !empty($_REQUEST['type']) ) {
 				<h3>All entries</h3>
 				<table class="table table-bordered table-striped">
 					<thead>
+						<?php if (empty($_REQUEST['type'])): ?>
+							<th class="span1">type</th>
+						<?php endif ?>
 						<th class="span2">Time</th>
 						<th>Message</th>
 					</thead>
 					<tbody>
 						<?php foreach ( $logs->log as $log ) : ?>
 						<tr>
+							<?php if (empty($_REQUEST['type'])): ?>
+							<td class="type <?php echo $log->type ?>"><?php echo $log->type ?></td>
+							<?php endif; ?>
 							<td><?php echo $log->time ?></td>
 							<td><?php echo $log->decoded_message ?></td>
 						</tr>

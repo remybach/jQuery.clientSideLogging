@@ -5,3 +5,6 @@ li { margin:5px 0; }
 .checkbox label { display:inline-block; }
 
 .log_info { height:150px; overflow:auto; }
+
+.type { width:30px; }
+.type.error { background:#D59392 !important; }
