@@ -25,10 +25,10 @@ li { margin:5px 0; }
 	background:#B94A48;
 }
 .type.log:before {
-	background:#3A87AD;
+	background:#b9d5e2;
 }
 .type.info:before {
-	background:#C09853;
+	background:#BED5BE;
 }
 
 .table th.span1 { text-align:center; }
