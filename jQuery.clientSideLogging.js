@@ -10,20 +10,23 @@
  */
 (function($) {
 	var defaults = {
-		error_url: '/log?type=error',
-		info_url: '/log?type=info',
-		log_url: '/log?type=log',
-		log_level: 1,
-		native_error:true,
-		hijack_console:true,
-		query_var: 'msg',
-		client_info: {
-			location:true,
-			screen_size:true,
-			user_agent:true,
-			window_size:true
-		}
-	};
+			error_url: '/log?type=error',
+			info_url: '/log?type=info',
+			log_url: '/log?type=log',
+			log_level: 1,
+			native_error:true,
+			hijack_console:true,
+			query_var: 'msg',
+			client_info: {
+				location:true,
+				screen_size:true,
+				user_agent:true,
+				window_size:true
+			}
+		},
+		original_error = console.error,
+		original_info = console.info,
+		original_log = console.log;
 
    /**
 	* Initializing with custom options. Not strictly necessary, but recommended.
@@ -31,6 +34,13 @@
 	*/
 	$.clientSideLogging = function(options) {
 		defaults = $.extend(defaults, options || {});
+
+		// We need to unset these again if they were set the first time.
+		if (!defaults.hijack_console) {
+			console.error = original_error;
+			console.info = original_info;
+			console.log = original_log;
+		}
 	};
 
    /**
@@ -48,7 +58,6 @@
 	};
 
 	if (defaults.hijack_console) {
-		var original_error = console.error;
 		console.error = $.error;
 	}
 
@@ -67,7 +76,6 @@
 	};
 
 	if (defaults.hijack_console) {
-		var original_info = console.info;
 		console.info = $.info;
 	}
 
@@ -86,7 +94,6 @@
 	};
 
 	if (defaults.hijack_console) {
-		var original_log = console.log;
 		console.log = $.log;
 	}
 
