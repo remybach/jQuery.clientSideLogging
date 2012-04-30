@@ -10,18 +10,18 @@
  */
 (function($) {
 	var defaults = {
-			error_url: '/log?type=error',
-			info_url: '/log?type=info',
-			log_url: '/log?type=log',
-			log_level: 1,
-			native_error:true,
-			hijack_console:true,
-			query_var: 'msg',
-			client_info: {
-				location:true,
-				screen_size:true,
-				user_agent:true,
-				window_size:true
+			error_url: '/log?type=error',	// The url to which errors logs are sent
+			info_url: '/log?type=info',		// The url to which info logs are sent
+			log_url: '/log?type=log',		// The url to which standard logs are sent
+			log_level: 1,					// The level at which to log. This allows you to keep the calls to the logging in your code and just change this variable to log varying degrees. 1 = only error, 2 = error & log, 3 = error, log & info
+			native_error:true,				// Whether or not to send native js errors as well (using window.onerror).
+			hijack_console:true,			// Hijacks the default console functionality (ie: all your console.error/info/log are belong to us).
+			query_var: 'msg',				// The variable to send the log message through as.
+			client_info: {					// Configuration for what info about the client's browser is logged.
+				location:true,				//	The url to the page on which the error occurred.
+				screen_size:true,			//	The size of the user's screen (different to the window size because the window might not be maximized)
+				user_agent:true,			//	The user agent string.
+				window_size:true			//	The window size.
 			}
 		},
 		original_error = console.error,
