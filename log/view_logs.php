@@ -85,6 +85,9 @@ if ( !empty($_REQUEST['type']) ) {
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
   <!-- end CSS-->
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/view_logs.js" type="text/javascript" charset="utf-8"></script>
 </head>
 
 <body>
@@ -101,6 +104,9 @@ if ( !empty($_REQUEST['type']) ) {
 						<li class="<?php echo $type; ?><?php echo $active ?>"><a href="?type=<?php echo $type ?>"><?php echo ucwords($type) ?></a></li>
 						<?php endforeach ?>
 					</ul>
+					<form class="navbar-search pull-right">
+						<input type="text" placeholder="regex filter">
+					</form>
 				</div>
 			</div>
 		</header>
