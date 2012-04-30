@@ -40,6 +40,10 @@
 			console.error = original_error;
 			console.info = original_info;
 			console.log = original_log;
+		} else {
+			console.error = $.error;
+			console.info = $.info;
+			console.log = $.log;
 		}
 	};
 
