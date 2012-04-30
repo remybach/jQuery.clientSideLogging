@@ -89,23 +89,23 @@ if ( !empty($_REQUEST['type']) ) {
 
 <body>
 	<div id="container">
-		<header class="row-fluid">
-			<h1 class="span12">Client Side Logs</h1>
+		<header class="row-fluid navbar">
+			<div class="navbar-inner">
+				<div class="container">
+					<h1 class="brand">Client Side Logs</h1>
+					<ul class="nav">
+						<li<?php echo empty($_REQUEST['type']) ? ' class="active"' : ''; ?>><a href="view_logs.php">All</a></li>
+
+						<?php foreach ( array('error', 'info', 'log') as $type ) : ?>
+						<?php $active = ( !empty($_REQUEST['type']) && $type == $_REQUEST['type'] ) ? ' active' : ''; ?>
+						<li class="<?php echo $type; ?><?php echo $active ?>"><a href="?type=<?php echo $type ?>"><?php echo ucwords($type) ?></a></li>
+						<?php endforeach ?>
+					</ul>
+				</div>
+			</div>
 		</header>
 		<div id="main-container" class="row-fluid">
-			<aside class="span2">
-				<ul class="nav nav-list">
-					<li class="nav-header">Type:</li>
-
-					<li<?php echo empty($_REQUEST['type']) ? ' class="active"' : ''; ?>><a href="view_logs.php">All</a></li>
-
-					<?php foreach ( array('error', 'info', 'log') as $type ) : ?>
-					<?php $active = ( !empty($_REQUEST['type']) && $type == $_REQUEST['type'] ) ? ' class="active"' : ''; ?>
-					<li<?php echo $active ?>><a href="?type=<?php echo $type ?>"><?php echo ucwords($type) ?></a></li>
-					<?php endforeach ?>
-				</ul>
-			</aside>
-			<div class="span10">
+			<div class="span12">
 				<h3>Overview</h3>
 				<table class="table table-bordered table-striped">
 					<thead>
@@ -113,8 +113,8 @@ if ( !empty($_REQUEST['type']) ) {
 							<?php if (empty($_REQUEST['type'])): ?>
 								<th class="span1">type</th>
 							<?php endif ?>
-							<th class="span2"># of Incidents</th>
-							<th>Details</th>
+							<th class="span1">#</th>
+							<th class="span<?php echo empty($_REQUEST['type']) ? '10' : '11'; ?>">Details</th>
 						</tr>
 					</thead>
 					<tbody>

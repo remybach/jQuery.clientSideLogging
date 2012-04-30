@@ -1,5 +1,23 @@
 body { padding:10px; }
 
+.navbar .brand { padding-top:14px; }
+.nav li.error:hover, .nav li.log:hover, .nav li.info:hover,
+.nav li.error.active, .nav li.log.active, .nav li.info.active {
+	margin-bottom:0;
+}
+.nav li.error:hover,
+.nav li.error.active {
+	border-bottom:5px solid #B94A48;
+}
+.nav li.log:hover,
+.nav li.log.active {
+	border-bottom:5px solid #B9D5E2;
+}
+.nav li.info:hover,
+.nav li.info.active {
+	border-bottom:5px solid #BED5BE;
+}
+
 ul { list-style:none; margin-left:5px; }
 li { margin:5px 0; }
 .checkbox label { display:inline-block; }
@@ -25,7 +43,7 @@ li { margin:5px 0; }
 	background:#B94A48;
 }
 .type.log:before {
-	background:#b9d5e2;
+	background:#B9D5E2;
 }
 .type.info:before {
 	background:#BED5BE;
