@@ -57,7 +57,7 @@
 		}
 
 		if (defaults.hijack_console && original_error.apply) {
-			original_error.apply(this, arguments);
+			original_error.apply(console, arguments);
 		}
 	};
 
@@ -75,7 +75,7 @@
 		}
 
 		if (defaults.hijack_console && original_info.apply) {
-			original_info.apply(this, arguments);
+			original_info.apply(console, arguments);
 		}
 	};
 
@@ -93,7 +93,7 @@
 		}
 
 		if (defaults.hijack_console && original_log.apply) {
-			original_log.apply(this, arguments);
+			original_log.apply(console, arguments);
 		}
 	};
 
