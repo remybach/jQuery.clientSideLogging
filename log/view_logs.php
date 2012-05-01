@@ -85,9 +85,6 @@ if ( !$logs ) {
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
   <!-- end CSS-->
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-  <script src="js/view_logs.js" type="text/javascript" charset="utf-8"></script>
 </head>
 
 <body>
@@ -183,22 +180,8 @@ if ( !$logs ) {
 	</div> <!--! end of #container -->
 
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
-
-
-	<!-- scripts concatenated and minified via ant build script-->
-	<script defer src="../jQuery.clientSideLogging.js"></script>
-	<script defer src="js/scripts.js"></script>
-	<!-- end scripts-->
-
-
-	<script> // Change UA-XXXXX-X to be your site's ID
-		// window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
-		// Modernizr.load({
-		// 	load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
-		// });
-	</script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="js/view_logs.js" type="text/javascript" charset="utf-8"></script>
 
 	<!--[if lt IE 7 ]>
 	<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
