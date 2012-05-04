@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Jquery.clientsidelogging by remybach</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Jquery.clientsidelogging</h1>
+        <h2>This plugin allows you to store front end log/info/error messages on the server (note: you will need to have something set up on your server to handle the actual logging).</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/remybach/jQuery.clientSideLogging/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/remybach/jQuery.clientSideLogging/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/remybach/jQuery.clientSideLogging" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>jQuery.clientSideLogging, the jQuery client side logging plugin</h1>
+
+<h2>About</h2>
+
+<p>We've all been there; someone's encountering an error on your site, but everything's fine for you. What browser are they using? What's the error message? How many people is this affecting? Usually, you're in the dark: but no more!</p>
+
+<p>With clientSideLogging, you can quietly log the errors that your users encounter (and also some debugging info of your own, if you like) and collate it server-side. Then, when you hear of a problem, you can check the logs — and see whether it's affecting one person or one thousand, one browser or many. You can even log useful information like screen resolution and browser size, for those inevitable small- or big-screen edge-cases.</p>
+
+<p>The inspiration for this jQuery plugin came from <a href="http://openmymind.net/2012/4/4/You-Really-Should-Log-Client-Side-Error/">Karl Seguin's excellent article</a>.</p>
+
+<h2>Usage</h2>
+
+<h3>Frontend</h3>
+
+<p>First things first, you need to set up your JavaScript code to log errors. Setup is easy; just include the jQuery plugin after jQuery, and call:</p>
+
+<pre><code>$.clientSideLogging();
+</code></pre>
+
+<p>There are some default arguments that you can override. At the very least, you should set the <code>error_url</code>, <code>info_url</code>, and <code>log_url</code> settings to point to your backend:</p>
+
+<pre><code>$.clientSideLogging({
+    error_url: '/log?type=error',   // The url to which errors logs are sent
+    info_url: '/log?type=info',     // The url to which info logs are sent
+    log_url: '/log?type=log',       // The url to which standard logs are sent
+    log_level: 1,                   // The level at which to log. This allows you to keep the calls to the logging in your code and just change this variable to log varying degrees. 1 = only error, 2 = error &amp; log, 3 = error, log &amp; info
+    native_error:true,              // Whether or not to send native js errors as well (using window.onerror).
+    hijack_console:true,            // Hijacks the default console functionality (ie: all your console.error/info/log are belong to us).
+    query_var: 'msg',               // The variable to send the log message through as.
+    client_info: {                  // Configuration for what info about the client's browser is logged.
+        location:true,              //  The url to the page on which the error occurred.
+        screen_size:true,           //  The size of the user's screen (different to the window size because the window might not be maximized)
+        user_agent:true,            //  The user agent string.
+        window_size:true            //  The window size.
+    }
+});
+</code></pre>
+
+<p>Now, to actually use it! You can log values yourself, using three utility/wrapper functions; all of them accept either a plain string or a JavaScript object:</p>
+
+<ul>
+<li>
+<code>$.error(what)</code> - Send an error message to the server; also calls console.error (if available)</li>
+<li>
+<code>$.info(what)</code> - Send an info message to the server; also calls console.info (if available)</li>
+<li>
+<code>$.log(what)</code> - Send a log message to the server; also calls console.log (if available)</li>
+</ul><p>The log will be sent to the backend as a normal <code>POST</code> request, which might look like the following:</p>
+
+<pre><code>$.post('/log?type=error&amp;msg=YOUR_ERROR_MESSAGE');
+</code></pre>
+
+<h4>Notes</h4>
+
+<ul>
+<li>
+<code>native_error</code> is set to <code>true</code> by default. This means that all browser errors will also be captured and passed to the backend.</li>
+<li>
+<code>hijack_console</code> is set to <code>true</code> by default and will log to the server as well as display your normal console.error/info/log. If you wish to keep the functionality for $.error and console.error (for example) separate, set hijack_console to false.</li>
+</ul><h3>Backend</h3>
+
+<p>Sending errors is all well and good, but not if you've not got anything to receive them! So, you need to have something on your server that will store error messages sent to it.</p>
+
+<p>Included in the distribution is a sample backend that should suffice for most people; it stores logs in a JSON-serialised text file, so it should be portable and relatively fast.</p>
+
+<p>This default backend will write its logs to a file called <code>log.txt</code> in its current directory; simply edit the <code>LOG_FILE</code> constant to change this — something that's highly recommended, to keep things private.</p>
+
+<h3>Viewing the logs</h3>
+
+<p>Also included with the distribution is a PHP frontend for parsing and displaying log entries; called <code>view_logs.php</code>, this script looks for the log file generated by the <code>log.php</code> script (make sure the <code>LOG_FILE</code> constant in the two of them matches) and displays a few nicely formatted tables of log information, and allows you to filter by severity.</p>
+
+<h2>Credit</h2>
+
+<p>jQuery.clientSideLogging was developed by <a href="https://github.com/remybach">Remy Bach</a> (JavaScript) and <a href="https://github.com/robmiller">Rob Miller</a> (PHP).</p>
+      </section>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-26812491-2");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
