@@ -73,10 +73,7 @@
 			original_error.apply(console, arguments);
 		}
 	};
-
-	if (defaults.hijack_console) {
-		console.error = $.error;
-	}
+	console.error = $.error;
 
    /**
     * The function that will send info logs to the server. Also logs to the console using console.info() (if available and requested by the user)
@@ -91,10 +88,7 @@
 			original_info.apply(console, arguments);
 		}
 	};
-
-	if (defaults.hijack_console) {
-		console.info = $.info;
-	}
+	console.info = $.info;
 
    /**
     * The function that will send standard logs to the server. Also logs to the console using console.log() (if available and requested by the user)
@@ -109,10 +103,7 @@
 			original_log.apply(console, arguments);
 		}
 	};
-
-	if (defaults.hijack_console) {
-		console.log = $.log;
-	}
+	console.log = $.log;
 
    // Log errors whenever there's a generic js error on the page.
 	window.onerror = function(message, file, line) {
