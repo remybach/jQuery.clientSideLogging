@@ -123,24 +123,23 @@
     * @param what The information to be logged.
     */
 	_send = function(url, what) {
-		// If the url already has a ? in it.
-		if (url.match(/\?.+$/)) {
-			url += '&';
-		} else {
-			url += '?';
-		}
+		url += url.match(/\?.+$/) ? '&' : '?';
 
-		format = 'text';
 		if (typeof what === 'object') {
-			format = 'json';
-
 			// Let's grab the additional logging info before we send this off.
 			$.extend(what, _buildClientInfo());
-			what = JSON.stringify(what);
-		}
 
-		url += 'format=' + format + '&' + defaults.query_var + '=' + what;
-		$.post(url);
+			_data = {};
+			_data[defaults.query_var] = JSON.stringify(what);
+
+			$.ajax({
+				type:'POST',
+				url:url+'format=json',
+				data:_data
+			});
+		} else {
+			$.post(url+'format=text&' + defaults.query_var + '=' + what);
+		}
 	};
 
    /**
