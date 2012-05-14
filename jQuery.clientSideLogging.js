@@ -9,6 +9,19 @@
  *		The idea was born after reading the following article: http://openmymind.net/2012/4/4/You-Really-Should-Log-Client-Side-Error/
  */
 (function($) {
+	/*===== Run polyfill for console first. =====*/
+	// Make sure browsers that don't have console don't completely die.
+	if (!window.console) {
+		console = {};
+	}
+	// Make console.* behave like proper Functions in IE.
+	if (window.console && typeof console.log == "object") {
+		$.each(["log","info","warn","error","assert","dir","clear","profile","profileEnd"], function(i, method) {
+			console[method] = $.proxy(console[method], console);
+		});
+	}
+	/*===== End polyfill for console. =====*/
+
 	var defaults = {
 			error_url: '/log/?type=error',	// The url to which errors logs are sent
 			info_url: '/log/?type=info',	// The url to which info logs are sent
@@ -56,7 +69,7 @@
 			_send(defaults.error_url, what);
 		}
 
-		if (defaults.hijack_console && original_error.apply) {
+		if (defaults.hijack_console && original_error && original_error.apply) {
 			original_error.apply(console, arguments);
 		}
 	};
@@ -74,7 +87,7 @@
 			_send(defaults.info_url, what);
 		}
 
-		if (defaults.hijack_console && original_info.apply) {
+		if (defaults.hijack_console && original_info && original_info.apply) {
 			original_info.apply(console, arguments);
 		}
 	};
@@ -92,7 +105,7 @@
 			_send(defaults.log_url, what);
 		}
 
-		if (defaults.hijack_console && original_log.apply) {
+		if (defaults.hijack_console && original_log && original_log.apply) {
 			original_log.apply(console, arguments);
 		}
 	};
@@ -190,69 +203,4 @@
 			return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
 		}
 	};
-
-	// Function.prototype.bind
-	// See: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind#Compatibility
-	if (!Function.prototype.bind) {
-		Function.prototype.bind = function(oThis) {
-			if (typeof this !== "function") {
-				// closest thing possible to the ECMAScript 5 internal IsCallable function
-				throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-			}
-
-			var aArgs = Array.prototype.slice.call(arguments, 1),
-			fToBind = this,
-			fNOP = function() {},
-			fBound = function() {
-				return fToBind.apply(
-					this instanceof fNOP ? this : oThis || window,
-					aArgs.concat(Array.prototype.slice.call(arguments))
-				);
-			};
-
-			fNOP.prototype = this.prototype;
-			fBound.prototype = new fNOP();
-
-			return fBound;
-		};
-	}
-
-	// Array.prototype.forEach
-	// See: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/foreach#Compatibility
-	if (!Array.prototype.forEach) {
-		Array.prototype.forEach = function(callback, thisArg) {
-			var T, k;
-			if (this === null) {
-				throw new TypeError("this is null or not defined");
-			}
-
-			var O = Object(this);
-			var len = O.length >>> 0;
-
-			if ({}.toString.call(callback) != "[object Function]") {
-				throw new TypeError(callback + " is not a function");
-			}
-
-			if (thisArg) {
-				T = thisArg;
-			}
-
-			k = 0;
-			while (k < len) {
-				var kValue;
-				if (k in O) {
-					kValue = O[ k ];
-					callback.call( T, kValue, k, O );
-				}
-				k++;
-			}
-		};
-	}
-
-	// Make console.* behave like proper Functions in IE.
-	if (Function.prototype.bind && console && typeof console.log == "object") {
-		["log","info","warn","error","assert","dir","clear","profile","profileEnd"].forEach(function (method) {
-			console[method] = this.bind(console[method], console);
-		}, Function.prototype.call);
-	}
 })(jQuery);
