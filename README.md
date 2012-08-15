@@ -64,3 +64,7 @@ Also included with the distribution is a PHP frontend for parsing and displaying
 ## Credit
 
 jQuery.clientSideLogging was developed by [Remy Bach](https://github.com/remybach) (JavaScript) and [Rob Miller](https://github.com/robmiller) (PHP).
+
+## License
+
+MIT License - [http://remybach.mit-license.org/](http://remybach.mit-license.org/)
