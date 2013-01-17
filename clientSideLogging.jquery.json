@@ -1,0 +1,30 @@
+{
+	"name": "clientSideLogging",
+	"version": "1.1.2",
+	"title": "jQuery Client Side Logging",
+	"author": {
+		"name": "Rémy Bach",
+		"url": "http://remy.bach.me.uk"
+	},
+	"licenses": [{
+		"type": "MIT",
+		"url": "http://remybach.mit-license.org/"
+	}],
+	"dependencies": {
+		"jquery": ">=1.5"
+	},
+	"description": "This plugin allows you to store front end log/info/error messages on the server (note: you will need to have something set up on your server to handle the actual logging).",
+	"keywords": [
+		"errors",
+		"logging",
+		"debug",
+		"debugging"
+	],
+	"homepage": "https://github.com/remybach/jQuery.clientSideLogging",
+	"docs": "https://github.com/remybach/jQuery.clientSideLogging",
+	"bugs": "https://github.com/remybach/jQuery.clientSideLogging/issues",
+	"maintainers": [{
+		"name":"Rob Miller",
+		"url":"https://github.com/robmiller"
+	}]
+}
