@@ -138,6 +138,10 @@
                 data:_data
             });
         } else {
+            if (what.indexOf(defaults.error_url) > 0) {
+                // Prevent trying to send error messages to non existing error_url
+                return;
+            }
             $.post(url+'format=text&' + defaults.query_var + '=' + what);
         }
     };
